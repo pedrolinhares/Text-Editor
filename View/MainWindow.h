@@ -16,15 +16,18 @@ public:
 //protected:
   //  void closeEvent(QCloseEvent *event);
 private slots:
-    void openFile();
+    bool openFile();
+    bool loadFile(QString& );
+    bool Ok_ToContinue();
 private:
-    void createMenu();
-    void createActions();
-    QTextEdit *textEdit;
-    QMenu *fileMenu;
-    QMenu *aboutMenu;
-    QAction *openAction;
-    QAction *aboutQtAction;
+    void       createMenu();
+    void       createActions();
+    QTextEdit  *textEdit;
+    QMenu      *fileMenu;
+    QMenu      *aboutMenu;
+    QAction    *openAction;
+    QAction    *closeAction;
+    QAction    *aboutQtAction;
 }; 
 
 #endif

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'MainWindow.h'
 **
-** Created: Wed Apr 21 00:04:33 2010
+** Created: Tue Apr 27 18:06:25 2010
 **      by: The Qt Meta Object Compiler version 61 (Qt 4.5.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,19 +23,22 @@ static const uint qt_meta_data_MainWindow[] = {
        2,       // revision
        0,       // classname
        0,    0, // classinfo
-       1,   12, // methods
+       3,   12, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
 
  // slots: signature, parameters, type, tag, flags
-      12,   11,   11,   11, 0x08,
+      17,   11,   12,   11, 0x08,
+      28,   11,   12,   11, 0x08,
+      47,   11,   12,   11, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_MainWindow[] = {
-    "MainWindow\0\0openFile()\0"
+    "MainWindow\0\0bool\0openFile()\0"
+    "loadFile(QString&)\0Ok_ToContinue()\0"
 };
 
 const QMetaObject MainWindow::staticMetaObject = {
@@ -63,10 +66,15 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: openFile(); break;
+        case 0: { bool _r = openFile();
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
+        case 1: { bool _r = loadFile((*reinterpret_cast< QString(*)>(_a[1])));
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
+        case 2: { bool _r = Ok_ToContinue();
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
         default: ;
         }
-        _id -= 1;
+        _id -= 3;
     }
     return _id;
 }
