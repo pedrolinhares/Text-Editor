@@ -1,12 +1,12 @@
-#include "MainWindow.h"
 #include <QtGui>
+#include "MainWindow.h"
 
 MainWindow::MainWindow(){
-    textEdit = new QTextEdit();
-    connect(textEdit, SIGNAL(textChanged()), this, SLOT(setWindowModified(true)));
+    textEdit = createEditor();
     setCentralWidget(textEdit);
     
     setWindowTitle(tr("Editor Version 0.1"));
+    setWindowIcon(QIcon("./images/text-Doc.png"));
     resize(800, 600);
     createActions();
     createMenu();
@@ -18,7 +18,7 @@ void MainWindow::createActions(){
     openAction->setIcon(QIcon("./images/open_icon.png"));
     openAction->setShortcut(tr("Ctrl+O"));
     openAction->setStatusTip(tr("Open a exiting file"));
-    connect(openAction, SIGNAL(triggered()), this, SLOT(openFile()));
+    connect(openAction, SIGNAL(triggered()), textEdit, SLOT(openFile()));
 
     /*Close Action*/
     closeAction = new QAction(tr("&Exit"), this);
@@ -29,6 +29,7 @@ void MainWindow::createActions(){
 
     /*About Qt Action*/
     aboutQtAction = new QAction(tr("About &Qt"),this);
+    aboutQtAction->setIcon(QIcon("./images/qt-logo.png"));
     aboutQtAction->setStatusTip(tr("Show the Qt library's About box"));
     connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 
@@ -42,33 +43,8 @@ void MainWindow::createMenu(){
     aboutMenu = menuBar()->addMenu(tr("&About"));
     aboutMenu->addAction(aboutQtAction);
 }
-bool MainWindow::openFile(){
-    if(Ok_ToContinue()){
-        QString fileName = QFileDialog::getOpenFileName(this, tr("Choose File to open"), ".", tr("Txt Files (*.txt)"
-        "All (*.*)"));
-    if(fileName.isEmpty())
-        return false;
-    
-    loadFile(fileName);
-    }
-    return true;
-}
-
-bool MainWindow::Ok_ToContinue(){
-    if(1/*isWindowModified()*/){
-        int r = QMessageBox::warning(this, tr("TextEditor"),
-                            tr("The document has been modified. \n"
-                            "Do you want to save your changes?"),
-                            QMessageBox::Yes | QMessageBox::Default,
-                            QMessageBox::No,
-                            QMessageBox::Cancel | QMessageBox::Escape);
-        if(r == QMessageBox::Yes || r == QMessageBox::No)
-            return true;
-        else  
-            return false;
-    }else
-        return true;
-}
-bool MainWindow::loadFile(QString &fileName){
-    return true;   
+Editor* MainWindow::createEditor(){
+    Editor *textEd = new Editor(this);
+    /*Acrescentar coisas futuramente*/
+    return textEd;
 }
