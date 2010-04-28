@@ -13,12 +13,14 @@ Editor::Editor(QWidget *parent )
 //    connect(document(), SIGNAL(ContentsChanged()), this, SLOT(documentWasModified()));
     connect(action, SIGNAL(textChanged()), this, SLOT(documentWasModified()));
 //    (qobject_cast<QMainWindow *>(parent()))->setWindowTitle(CurFile + "[*]");
-    action->setText(CurFile);
+    setDocumentTitle(CurFile);
     setAttribute(Qt::WA_DeleteOnClose);
     
 }
 void Editor::documentWasModified(){
     document()->setModified(true);
+    QString trs = tr("tab");
+    QTabWidget::setTabText(1,trs);
 }
 bool Editor::openFile(){
     if(Ok_ToContinue()){

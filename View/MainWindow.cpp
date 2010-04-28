@@ -2,8 +2,10 @@
 #include "MainWindow.h"
 
 MainWindow::MainWindow(){
+    tabWidget = new QTabWidget(this);
     textEdit = createEditor();
-    setCentralWidget(textEdit);
+    tabWidget->addTab(textEdit,textEdit->documentTitle());
+    setCentralWidget(tabWidget);
     
     setWindowTitle(tr("Editor Version 0.1"));
     setWindowIcon(QIcon("./images/text-Doc.png"));
@@ -44,7 +46,7 @@ void MainWindow::createMenu(){
     aboutMenu->addAction(aboutQtAction);
 }
 Editor* MainWindow::createEditor(){
-    Editor *textEd = new Editor(this);
+    Editor *textEd = new Editor();
     /*Acrescentar coisas futuramente*/
     return textEd;
 }
