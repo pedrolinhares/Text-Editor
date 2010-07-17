@@ -18,6 +18,7 @@ public:
 //protected:
   //  void closeEvent(QCloseEvent *event);
 private slots:
+    void updateTabTitle();
 private:
     void       createMenu();
     void       createActions();
@@ -28,7 +29,9 @@ private:
     QMenu      *aboutMenu;
     QAction    *openAction;
     QAction    *closeAction;
+    QAction    *saveAction;
     QAction    *aboutQtAction;
-}; 
+};
 
 #endif
+
