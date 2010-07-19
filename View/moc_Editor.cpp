@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'Editor.h'
 **
-** Created: Sat Jul 17 18:25:00 2010
+** Created: Mon Jul 19 15:28:40 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_Editor[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-       4,   14, // methods
+       2,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -33,15 +33,13 @@ static const uint qt_meta_data_Editor[] = {
  // slots: signature, parameters, type, tag, flags
        8,    7,    7,    7, 0x08,
       35,    7,   30,    7, 0x08,
-      46,    7,   30,    7, 0x08,
-      57,    7,   30,    7, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_Editor[] = {
     "Editor\0\0documentWasModified()\0bool\0"
-    "openFile()\0saveFile()\0loadFile(QString&)\0"
+    "loadFile(QString&)\0"
 };
 
 const QMetaObject Editor::staticMetaObject = {
@@ -74,15 +72,11 @@ int Editor::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
         case 0: documentWasModified(); break;
-        case 1: { bool _r = openFile();
-            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
-        case 2: { bool _r = saveFile();
-            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
-        case 3: { bool _r = loadFile((*reinterpret_cast< QString(*)>(_a[1])));
+        case 1: { bool _r = loadFile((*reinterpret_cast< QString(*)>(_a[1])));
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
         default: ;
         }
-        _id -= 4;
+        _id -= 2;
     }
     return _id;
 }

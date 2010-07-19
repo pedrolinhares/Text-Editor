@@ -4,21 +4,27 @@
 
 MainWindow::MainWindow(){
     tabWidget = new QTabWidget(this);
-    textEdit = createEditor();
-    tabWidget->addTab(textEdit,textEdit->documentTitle());
+    tabWidget->setMovable (true);
+    tabWidget->setTabsClosable (true);
+    tabWidget->setDocumentMode (true);
 
-    connect(textEdit, SIGNAL(textChanged()), this, SLOT(updateTabTitle()) );
-    
-    setCentralWidget(tabWidget);
 
-    setWindowTitle(tr("Editor Version 0.1"));
-    setWindowIcon(QIcon("./images/text-Doc.png"));
-    resize(800, 600);
+    connect (tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
+    connect (tabWidget, SIGNAL(currentChanged(int)), this, SLOT(pageChanged(int)));
+
+    setCentralWidget (tabWidget);
+
+    setWindowTitle (tr("Editor Version 0.1"));
+    setWindowIcon (QPixmap(":/images/text_doc.png"));
+    resize (800, 600);
     
     showMaximized();
 
     createActions();
     createMenu();
+    createToolBar();
+
+    newDocument();
 }
 
 void MainWindow::updateTabTitle(){
@@ -27,34 +33,96 @@ void MainWindow::updateTabTitle(){
 }
 
 void MainWindow::createActions(){
-    
+   
+    //New file Action
+
+    newAction = new QAction (tr("New document"), this);
+    newAction->setIcon(QIcon(":/images/new_icon.png"));
+    newAction->setShortcut (tr("Ctrl+N"));
+    newAction->setStatusTip (tr("Open new file"));
+
+    connect (newAction, SIGNAL(triggered()), this, SLOT(newDocument()));
+
     //Open document action
     openAction = new QAction(tr("&Open"), this);
-    openAction->setIcon(QIcon("./images/open_icon.png"));
+    openAction->setIcon(QIcon(":/images/open_icon.png"));
     openAction->setShortcut(tr("Ctrl+O"));
     openAction->setStatusTip(tr("Open a exiting file"));
 
-    connect(openAction, SIGNAL(triggered()), textEdit, SLOT(openFile()));
+    connect(openAction, SIGNAL(triggered()), this, SLOT(openFile()));
 
     //Save document action
     saveAction = new QAction(tr("&Save"), this);
-    saveAction->setIcon(QIcon("./images/save_icon.png"));
+    saveAction->setIcon(QIcon(":/images/save_icon.png"));
     saveAction->setShortcut(tr("Ctrl+s"));
     saveAction->setStatusTip(tr("save the current document"));
 
-    connect(saveAction, SIGNAL(triggered()), textEdit, SLOT(saveFile()));
+    connect(saveAction, SIGNAL(triggered()), this, SLOT(saveFile()));
+
+    //Save As Action
+
+    saveAsAction = new QAction(tr("&Save As.."), this);
+    saveAsAction->setShortcut(Qt::SHIFT | Qt::CTRL | Qt::Key_S);
+    saveAsAction->setStatusTip(tr("save the current document with a different name"));
+
+    connect(saveAsAction, SIGNAL(triggered()),this, SLOT(saveAs()));
+
+    //Copy Action
+
+    copyAction = new QAction (tr("Copy"), this);
+    copyAction->setShortcut (tr("Ctrl+c"));
+    copyAction->setIcon(QIcon(":/images/copy_icon.png"));
+    copyAction->setStatusTip (tr("Copy selected text to clipboard"));
+    copyAction->setEnabled(false);
+
+    connect (copyAction, SIGNAL(triggered()), this, SLOT(copy()));
+
+    //Cut Action
+    cutAction = new QAction (tr("Cut"), this);
+    cutAction->setShortcut (tr("Ctrl+x"));
+    cutAction->setIcon(QIcon(":/images/cut_icon.png"));
+    cutAction->setStatusTip (tr("Cut selected text to clipboard"));
+    cutAction->setEnabled(false);
+
+    connect (cutAction, SIGNAL(triggered()), this, SLOT(cut()));
+
+    //Paste Action
+    pasteAction = new QAction (tr("Paste"), this);
+    pasteAction->setShortcut (tr("Ctrl+v"));
+    pasteAction->setIcon(QIcon(":/images/paste_icon.png"));
+    pasteAction->setStatusTip (tr("paste text in clipboard"));
+
+    connect (pasteAction, SIGNAL(triggered()), this, SLOT(paste()));
+
+    //Undo Action
+    undoAction = new QAction (tr("Undo"), this);
+    undoAction->setShortcut (tr("Ctrl+z"));
+    undoAction->setIcon(QIcon(":/images/undo_icon.png"));
+    undoAction->setStatusTip (tr("Undo the last action"));
+    undoAction->setEnabled(false);
+
+    connect (undoAction, SIGNAL(triggered()), this, SLOT(undo()));
+
+    //Redo Action
+    redoAction = new QAction (tr("Redo"), this);
+    redoAction->setShortcut (Qt::SHIFT | Qt::CTRL | Qt::Key_Z);
+    redoAction->setIcon(QIcon(":/images/redo_icon.png"));
+    redoAction->setStatusTip (tr("Redo the last action"));
+    redoAction->setEnabled(false);
+
+    connect (redoAction, SIGNAL(triggered()), this, SLOT(redo()));
 
     //Close Action
     closeAction = new QAction(tr("&Exit"), this);
     closeAction->setShortcut(tr("Ctrl+Q"));
-    closeAction->setIcon(QIcon("./images/quit-icon.png"));
+    closeAction->setIcon(QIcon(":/images/quit_icon.png"));
     closeAction->setStatusTip(tr("Exit Application"));
     
     connect(closeAction, SIGNAL(triggered()), qApp, SLOT(closeAllWindows()));
 
     /*About Qt Action*/
     aboutQtAction = new QAction(tr("About &Qt"),this);
-    aboutQtAction->setIcon(QIcon("./images/qt-logo.png"));
+    aboutQtAction->setIcon(QIcon(":/images/qt_logo.png"));
     aboutQtAction->setStatusTip(tr("Show the Qt library's About box"));
     
     connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
@@ -62,18 +130,104 @@ void MainWindow::createActions(){
 
 void MainWindow::createMenu(){
     fileMenu = menuBar()->addMenu(tr("&File"));
+    fileMenu->addAction (newAction);
+    fileMenu->addSeparator();
     fileMenu->addAction (openAction);
     fileMenu->addAction (saveAction);
+    fileMenu->addAction (saveAsAction);
     fileMenu->addSeparator();
     fileMenu->addAction (closeAction);
+
+    editMenu = menuBar()->addMenu (tr("&Edit"));
+    editMenu->addAction(undoAction);
+    editMenu->addAction(redoAction);
+    editMenu->addSeparator();
+    editMenu->addAction(cutAction);
+    editMenu->addAction(copyAction);
+    editMenu->addAction(pasteAction);
 
     aboutMenu = menuBar()->addMenu(tr("&About"));
     aboutMenu->addAction (aboutQtAction);
 }
 
 Editor* MainWindow::createEditor(){
-    Editor *textEd = new Editor();
-    /*Acrescentar coisas futuramente*/
+    Editor* textEd = 0;
+    textEd = new Editor();
+    
     return textEd;
 }
 
+bool MainWindow::newDocument() {
+    textEdit = createEditor();
+    
+    if (!textEdit)
+        return false;
+
+    connect (textEdit, SIGNAL(textChanged()), this, SLOT(updateTabTitle()) );
+    connect (textEdit, SIGNAL(copyAvailable(bool)), cutAction, SLOT(setEnabled(bool)));
+    connect (textEdit, SIGNAL(copyAvailable(bool)), copyAction, SLOT(setEnabled(bool)));
+    connect (textEdit, SIGNAL(undoAvailable(bool)), undoAction, SLOT(setEnabled(bool)));
+    connect (textEdit, SIGNAL(redoAvailable(bool)), redoAction, SLOT(setEnabled(bool)));
+
+    int tabIndex = tabWidget->addTab(textEdit, textEdit->documentTitle());
+    tabWidget->setCurrentIndex(tabIndex);
+    return true;
+}
+
+void MainWindow::createToolBar () {
+    fileToolBar = addToolBar (tr("&File"));
+    fileToolBar->addAction (newAction);
+    fileToolBar->addAction (openAction);
+    fileToolBar->addAction (saveAction);
+
+    editToolBar = addToolBar (tr("Edit"));
+    editToolBar->addAction (copyAction);
+    editToolBar->addAction (cutAction);
+    editToolBar->addAction (pasteAction);
+
+    undoRedoToolBar = addToolBar (tr("Undo & Redo actions"));
+    undoRedoToolBar->addAction (undoAction);
+    undoRedoToolBar->addAction (redoAction);
+}
+
+void MainWindow::pageChanged(int tabIndex) {
+    textEdit = dynamic_cast<Editor*> (tabWidget->widget(tabIndex));
+}
+
+void MainWindow::closeTab (int tabIndex) {
+    textEdit = dynamic_cast<Editor*> (tabWidget->widget(tabIndex));
+     if(textEdit->Ok_ToContinue())
+        delete tabWidget->widget(tabIndex);
+}
+
+void MainWindow::openFile () {
+    textEdit->openFile();
+}
+
+void MainWindow::saveFile () {
+    textEdit->saveFile();
+}
+
+void MainWindow::saveAs () {
+    textEdit->saveAs();
+}
+
+void MainWindow::copy () {
+    textEdit->copy();
+}
+
+void MainWindow::cut () {
+    textEdit->cut();
+}
+
+void MainWindow::paste () {
+    textEdit->paste();
+}
+
+void MainWindow::undo () {
+    textEdit->undo();
+}
+
+void MainWindow::redo () {
+    textEdit->redo();
+}

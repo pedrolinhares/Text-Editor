@@ -1,0 +1,15 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource>
+        <file>images/open_icon.png</file>
+        <file>images/new_icon.png</file>
+        <file>images/qt_logo.png</file>
+        <file>images/quit_icon.png</file>
+        <file>images/save_icon.png</file>
+        <file>images/text_doc.png</file>
+        <file>images/copy_icon.png</file>
+        <file>images/cut_icon.png</file>
+        <file>images/paste_icon.png</file>
+        <file>images/undo_icon.png</file>
+        <file>images/redo_icon.png</file>
+    </qresource>
+</RCC>

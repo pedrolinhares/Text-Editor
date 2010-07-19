@@ -11,16 +11,18 @@ class Editor : public QTextEdit{
 
     public:
         Editor(QWidget *parent = 0);
+        
+        //public slots
+        bool openFile();
+        bool saveFile();
+        bool saveAs();
+        bool Ok_ToContinue();
 
     private slots:
         void documentWasModified();
-        bool openFile();
-        bool saveFile();
         bool loadFile(QString& );
 
     private:
-        bool Ok_ToContinue();
-        bool saveAs();
         bool save (const QString& );
         void setCurrentFile(const QString& );
         bool writeFile(const QString& );

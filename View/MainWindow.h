@@ -8,29 +8,54 @@ class QAction;
 class QLabel;
 class QTextEdit;
 class QMenu;
+class QToolBar;
 class QTabWidget;
 
 class MainWindow : public QMainWindow{
     Q_OBJECT
-public:
-    MainWindow();
+    public:
+        MainWindow();
 
-//protected:
-  //  void closeEvent(QCloseEvent *event);
-private slots:
-    void updateTabTitle();
-private:
-    void       createMenu();
-    void       createActions();
-    Editor*    createEditor();
-    QTextEdit  *textEdit;
-    QTabWidget *tabWidget;
-    QMenu      *fileMenu;
-    QMenu      *aboutMenu;
-    QAction    *openAction;
-    QAction    *closeAction;
-    QAction    *saveAction;
-    QAction    *aboutQtAction;
+    //protected:
+      //  void closeEvent(QCloseEvent *event);
+    private slots:
+        void updateTabTitle();
+        bool newDocument();
+        void pageChanged (int);
+        void closeTab (int);
+        void openFile();
+        void saveFile();
+        void saveAs();
+        void copy();
+        void cut();
+        void paste();
+        void undo();
+        void redo();
+
+    private:
+        void       createMenu();
+        void       createActions();
+        void       createToolBar();
+        Editor*    createEditor();
+        Editor*    textEdit;
+        QTabWidget *tabWidget;
+        QMenu      *fileMenu;
+        QMenu      *editMenu;
+        QMenu      *aboutMenu;
+        QToolBar   *fileToolBar;
+        QToolBar   *editToolBar;
+        QToolBar   *undoRedoToolBar;
+        QAction    *openAction;
+        QAction    *newAction;
+        QAction    *closeAction;
+        QAction    *saveAction;
+        QAction    *saveAsAction;
+        QAction    *cutAction;
+        QAction    *copyAction;
+        QAction    *undoAction;
+        QAction    *redoAction;
+        QAction    *pasteAction;
+        QAction    *aboutQtAction;
 };
 
 #endif
