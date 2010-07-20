@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "Editor.h"
+#include "FileBrowser.h"
 
 class QAction;
 class QLabel;
@@ -22,6 +23,7 @@ class MainWindow : public QMainWindow{
         void updateTabTitle();
         bool newDocument();
         void pageChanged (int);
+        void openFromFileBrowser(QString&);
         void closeTab (int);
         void openFile();
         void saveFile();
@@ -38,6 +40,7 @@ class MainWindow : public QMainWindow{
         void       createToolBar();
         Editor*    createEditor();
         Editor*    textEdit;
+        FileBrowser* fileBrowser;
         QTabWidget *tabWidget;
         QMenu      *fileMenu;
         QMenu      *editMenu;

@@ -12,19 +12,35 @@ MainWindow::MainWindow(){
     connect (tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
     connect (tabWidget, SIGNAL(currentChanged(int)), this, SLOT(pageChanged(int)));
 
-    setCentralWidget (tabWidget);
+    QStringList filters;
+    filters << "*.txt" <<"*.cpp" <<"*.h";
+    fileBrowser = new FileBrowser (filters, this);
+    fileBrowser->setFixedWidth(200);
+
+    connect (fileBrowser, SIGNAL(picked(QString&)), this, 
+            SLOT(openFromFileBrowser(QString&)));
+
+    QHBoxLayout *layout = new QHBoxLayout;
+    layout->addWidget (fileBrowser);
+    layout->addWidget (tabWidget);
+
+    QWidget* centralWidget = new QWidget;
+    centralWidget->setLayout(layout);
+
+    setCentralWidget (centralWidget);
 
     setWindowTitle (tr("Editor Version 0.1"));
     setWindowIcon (QPixmap(":/images/text_doc.png"));
-    resize (800, 600);
     
-    showMaximized();
-
     createActions();
     createMenu();
     createToolBar();
 
     newDocument();
+
+    resize (800, 600);
+    showMaximized();
+
 }
 
 void MainWindow::updateTabTitle(){
@@ -230,4 +246,9 @@ void MainWindow::undo () {
 
 void MainWindow::redo () {
     textEdit->redo();
+}
+
+void MainWindow::openFromFileBrowser (QString& filePath) {
+    newDocument();
+    textEdit->loadFile(filePath);
 }

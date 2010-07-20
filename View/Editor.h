@@ -17,10 +17,10 @@ class Editor : public QTextEdit{
         bool saveFile();
         bool saveAs();
         bool Ok_ToContinue();
+        bool loadFile(QString& );
 
     private slots:
         void documentWasModified();
-        bool loadFile(QString& );
 
     private:
         bool save (const QString& );
