@@ -2,31 +2,45 @@
 #include <iostream>
 #include "Editor.h"
 
-int Editor::numDocuments = 0;
+int Editor::numUntitleDocuments = 0;
 
 Editor::Editor(QWidget *parent )
         : QTextEdit(parent){
+
+    numUntitleDocuments++;
+
     action = new QAction(this);
     action->setCheckable(true);
+    
     isUntitle = true;
-    curFile = tr("Untitle Document ");
+    curFile = tr("Untitle Document %1").arg(numUntitleDocuments);
     document()->setModified(false);
-    connect(document(), SIGNAL(contentsChanged()), this, SLOT(documentWasModified()));
+    
+    connect(document(), SIGNAL(contentsChanged()), this, 
+                        SLOT(documentWasModified()));
+
     setDocumentTitle(curFile);
     setAttribute(Qt::WA_DeleteOnClose);
-    numDocuments++;
+}
 
+Editor::~Editor() {
+    emit copyAvailable (false);
+    emit undoAvailable (false);
+    emit redoAvailable (false);
+    numUntitleDocuments--;
 }
 
 void Editor::documentWasModified(){
     document()->setModified (true);
     setWindowTitle (strippedFileName (curFile) + "[*]" );
     setWindowModified (true);
+    emit textChanged();
 } 
 
 bool Editor::openFile(){
     if(Ok_ToContinue()){
-        QString fileName = QFileDialog::getOpenFileName(this, tr("Choose File to open"), ".",
+        QString fileName = QFileDialog::getOpenFileName(this, 
+                                                tr("Choose File to open"), ".",
                                                        tr("Txt Files (*.txt)\n"
                                                          "All (*)"));
     if(fileName.isEmpty())
@@ -79,6 +93,8 @@ bool Editor::loadFile (QString &fileName){
 void Editor::setCurrentFile (const QString& fileName) {
     curFile = fileName;
     isUntitle = false;
+    numUntitleDocuments--;
+
     document()->setModified (false);
     setWindowTitle (tr ("%1 ").arg(strippedFileName (curFile)) );
     setWindowModified (false);

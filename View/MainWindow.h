@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "Editor.h"
 #include "FileBrowser.h"
+//#include "FileTreeBrowser.h"
 
 class QAction;
 class QLabel;

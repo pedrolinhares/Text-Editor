@@ -12,6 +12,7 @@ MainWindow::MainWindow(){
     connect (tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
     connect (tabWidget, SIGNAL(currentChanged(int)), this, SLOT(pageChanged(int)));
 
+    //Defines wich files will be visible in the file browser
     QStringList filters;
     filters << "*.txt" <<"*.cpp" <<"*.h";
     fileBrowser = new FileBrowser (filters, this);
@@ -179,6 +180,12 @@ bool MainWindow::newDocument() {
     if (!textEdit)
         return false;
 
+    if (tabWidget->count() == 0) {
+        saveAction->setEnabled (true);
+        saveAsAction->setEnabled (true);
+        pasteAction->setEnabled (true); 
+    }
+
     connect (textEdit, SIGNAL(textChanged()), this, SLOT(updateTabTitle()) );
     connect (textEdit, SIGNAL(copyAvailable(bool)), cutAction, SLOT(setEnabled(bool)));
     connect (textEdit, SIGNAL(copyAvailable(bool)), copyAction, SLOT(setEnabled(bool)));
@@ -212,12 +219,28 @@ void MainWindow::pageChanged(int tabIndex) {
 
 void MainWindow::closeTab (int tabIndex) {
     textEdit = dynamic_cast<Editor*> (tabWidget->widget(tabIndex));
-     if(textEdit->Ok_ToContinue())
+     
+    if(textEdit->Ok_ToContinue())
         delete tabWidget->widget(tabIndex);
+
+    //Deactivate actions because there is no tab 
+     if (tabWidget->count() == 0) {
+         saveAction->setEnabled (false);
+         saveAsAction->setEnabled (false);
+         pasteAction->setEnabled (false);
+     }
 }
 
 void MainWindow::openFile () {
-    textEdit->openFile();
+    int numberOfTabs = tabWidget->count();
+    if (numberOfTabs == 0) {
+        QString fileName = QFileDialog::getOpenFileName(this, tr("Choose File to open"), ".",
+                                                       tr("Txt Files (*.txt)\n"
+                                                            "All (*)"));
+        if (!fileName.isEmpty())
+            openFromFileBrowser (fileName);
+    } else
+        textEdit->openFile();
 }
 
 void MainWindow::saveFile () {

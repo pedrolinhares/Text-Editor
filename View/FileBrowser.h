@@ -1,5 +1,5 @@
-#ifndef FILEBROWSER_H
-#define FILEBROWSER_H
+#ifndef FILE_BROWSER_H
+#define FILE_BROWSER_H
 
 #include <QListWidget>
 

@@ -11,5 +11,7 @@
         <file>images/paste_icon.png</file>
         <file>images/undo_icon.png</file>
         <file>images/redo_icon.png</file>
+        <file>images/file_icon.png</file>
+        <file>images/dir_icon.png</file>
     </qresource>
 </RCC>

@@ -10,8 +10,9 @@ class Editor : public QTextEdit{
     Q_OBJECT
 
     public:
-        Editor(QWidget *parent = 0);
-        
+        Editor (QWidget *parent = 0);
+        ~Editor();
+
         //public slots
         bool openFile();
         bool saveFile();
@@ -28,7 +29,7 @@ class Editor : public QTextEdit{
         bool writeFile(const QString& );
         QString strippedFileName(const QString& );
 
-        static int numDocuments;
+        static int numUntitleDocuments;
         bool       isUntitle;
         QString    curFile;
         QAction    *action;
