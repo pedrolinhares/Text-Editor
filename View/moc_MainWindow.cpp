@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'MainWindow.h'
 **
-** Created: Tue Jul 27 22:26:22 2010
+** Created: Wed Jul 28 11:49:55 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -35,15 +35,15 @@ static const uint qt_meta_data_MainWindow[] = {
       34,   11,   29,   11, 0x08,
       48,   11,   11,   11, 0x08,
       65,   11,   11,   11, 0x08,
-      95,   11,   11,   11, 0x08,
-     109,   11,   11,   11, 0x08,
-     120,   11,   11,   11, 0x08,
-     131,   11,   11,   11, 0x08,
-     140,   11,   11,   11, 0x08,
-     147,   11,   11,   11, 0x08,
-     153,   11,   11,   11, 0x08,
-     161,   11,   11,   11, 0x08,
-     168,   11,   11,   11, 0x08,
+      94,   11,   11,   11, 0x08,
+     108,   11,   11,   11, 0x08,
+     119,   11,   11,   11, 0x08,
+     130,   11,   11,   11, 0x08,
+     139,   11,   11,   11, 0x08,
+     146,   11,   11,   11, 0x08,
+     152,   11,   11,   11, 0x08,
+     160,   11,   11,   11, 0x08,
+     167,   11,   11,   11, 0x08,
 
        0        // eod
 };
@@ -51,10 +51,9 @@ static const uint qt_meta_data_MainWindow[] = {
 static const char qt_meta_stringdata_MainWindow[] = {
     "MainWindow\0\0updateTabTitle()\0bool\0"
     "newDocument()\0pageChanged(int)\0"
-    "openFromFileBrowser(QString&)\0"
-    "closeTab(int)\0openFile()\0saveFile()\0"
-    "saveAs()\0copy()\0cut()\0paste()\0undo()\0"
-    "redo()\0"
+    "openFromFileBrowser(QString)\0closeTab(int)\0"
+    "openFile()\0saveFile()\0saveAs()\0copy()\0"
+    "cut()\0paste()\0undo()\0redo()\0"
 };
 
 const QMetaObject MainWindow::staticMetaObject = {

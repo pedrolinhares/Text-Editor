@@ -15,15 +15,16 @@ MainWindow::MainWindow(){
     //Defines wich files will be visible in the file browser
     QStringList filters;
     filters << "*.txt" <<"*.cpp" <<"*.h";
-    fileBrowser = new FileBrowser (filters, this);
-    fileBrowser->setFixedWidth(200);
+    fileBrowser = new FileBrowserView (filters, this);
 
-    connect (fileBrowser, SIGNAL(picked(QString&)), this, 
-            SLOT(openFromFileBrowser(QString&)));
+    connect (fileBrowser, SIGNAL(picked(QString)), this, 
+            SLOT(openFromFileBrowser(QString)));
 
     QHBoxLayout *layout = new QHBoxLayout;
     layout->addWidget (fileBrowser);
     layout->addWidget (tabWidget);
+
+    layout->setAlignment (fileBrowser, Qt::AlignLeft);
 
     QWidget* centralWidget = new QWidget;
     centralWidget->setLayout(layout);
@@ -271,7 +272,7 @@ void MainWindow::redo () {
     textEdit->redo();
 }
 
-void MainWindow::openFromFileBrowser (QString& filePath) {
+void MainWindow::openFromFileBrowser (QString filePath) {
     newDocument();
     textEdit->loadFile(filePath);
 }
