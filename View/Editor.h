@@ -19,6 +19,7 @@ class Editor : public QTextEdit{
         bool saveAs();
         bool Ok_ToContinue();
         bool loadFile(QString& );
+        QString getFileName() {return curFile;};
 
     private slots:
         void documentWasModified();

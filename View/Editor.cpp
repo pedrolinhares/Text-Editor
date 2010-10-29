@@ -27,7 +27,8 @@ Editor::~Editor() {
     emit copyAvailable (false);
     emit undoAvailable (false);
     emit redoAvailable (false);
-    numUntitleDocuments--;
+    if (numUntitleDocuments > 0)
+        numUntitleDocuments--;
 }
 
 void Editor::documentWasModified(){

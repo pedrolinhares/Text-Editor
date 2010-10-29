@@ -12,9 +12,9 @@ MainWindow::MainWindow(){
     connect (tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
     connect (tabWidget, SIGNAL(currentChanged(int)), this, SLOT(pageChanged(int)));
 
-    //Defines wich files will be visible in the file browser
+    //Defines which files will be visible in the file browser
     QStringList filters;
-    filters << "*.txt" <<"*.cpp" <<"*.h";
+    filters << "*.txt" << "*.cpp" << "*.h";
     fileBrowser = new FileBrowserView (filters, this);
 
     connect (fileBrowser, SIGNAL(picked(QString)), this, 
@@ -42,13 +42,22 @@ MainWindow::MainWindow(){
 
     resize (800, 600);
     showMaximized();
-
 }
 
 void MainWindow::updateTabTitle(){
     int tabIndex = tabWidget->currentIndex();
     tabWidget->setTabText (tabIndex, textEdit->windowTitle() );
+
+    if (textEdit->document()->isModified())
+        updateWindowTitle ("*" + textEdit->getFileName());
+    else
+        updateWindowTitle (textEdit->getFileName());
 }
+
+void MainWindow::updateWindowTitle (const QString& filePath) {
+    setWindowTitle (tr("Editor Version 0.1 - (%1)").arg(filePath));
+}
+
 
 void MainWindow::createActions(){
    
@@ -216,6 +225,13 @@ void MainWindow::createToolBar () {
 
 void MainWindow::pageChanged(int tabIndex) {
     textEdit = dynamic_cast<Editor*> (tabWidget->widget(tabIndex));
+
+    if (textEdit != 0) {
+        if (textEdit->document()->isModified())
+            updateWindowTitle ("*" + textEdit->getFileName());
+        else
+            updateWindowTitle (textEdit->getFileName());
+    }
 }
 
 void MainWindow::closeTab (int tabIndex) {
@@ -229,6 +245,7 @@ void MainWindow::closeTab (int tabIndex) {
          saveAction->setEnabled (false);
          saveAsAction->setEnabled (false);
          pasteAction->setEnabled (false);
+         setWindowTitle ("Editor Version 0.1");
      }
 }
 
@@ -274,5 +291,6 @@ void MainWindow::redo () {
 
 void MainWindow::openFromFileBrowser (QString filePath) {
     newDocument();
-    textEdit->loadFile(filePath);
+    textEdit->loadFile (filePath);
+    updateWindowTitle (filePath);
 }

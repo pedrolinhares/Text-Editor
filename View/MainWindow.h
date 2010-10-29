@@ -39,8 +39,10 @@ class MainWindow : public QMainWindow{
         void       createMenu();
         void       createActions();
         void       createToolBar();
-        Editor*    createEditor();
-        Editor*    textEdit;
+        void       updateWindowTitle(const QString&);
+
+        Editor     *createEditor();
+        Editor     *textEdit;
         FileBrowserView* fileBrowser;
         QTabWidget *tabWidget;
         QMenu      *fileMenu;
