@@ -19,12 +19,13 @@ FileBrowserView::FileBrowserView (const QStringList& filter, QWidget* parent)
     header ()->setClickable (true);
 
 
-    QModelIndex index = model->index (QDir::homePath());
-    //setRootIndex (index);
+    QModelIndex index = model->index (QDir::currentPath());
+    setRootIndex (index);
     expand (index);
     scrollTo (index);
     resizeColumnToContents (0);
 
+    //to hide the columns with information but the column with the name 
     int numColumn = model->columnCount(index);
     for (int i = 1; i != numColumn; i++)
         hideColumn (i);
@@ -34,6 +35,8 @@ FileBrowserView::FileBrowserView (const QStringList& filter, QWidget* parent)
 }
 
 void FileBrowserView::itemSelected (const QModelIndex& index) {
-    if(!model->isDir(index))
+    if(model->isDir(index))
+        setRootIndex (model->index (model->filePath(index)));
+    else
         emit picked (model->filePath(index));
 } 

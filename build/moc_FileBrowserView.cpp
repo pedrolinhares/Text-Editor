@@ -1,13 +1,13 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'FileBrowserView.h'
 **
-** Created: Wed Jul 28 11:49:54 2010
+** Created: Sat Nov 13 16:12:45 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "FileBrowserView.h"
+#include "../src/FileBrowserView.h"
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'FileBrowserView.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 62

@@ -1,13 +1,13 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'Editor.h'
 **
-** Created: Thu Oct 28 19:54:50 2010
+** Created: Sat Nov 13 16:12:44 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.2)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "Editor.h"
+#include "../src/Editor.h"
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'Editor.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 62
